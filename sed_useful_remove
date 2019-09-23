@@ -1,0 +1,19 @@
+Source from: https://www.cyberciti.biz/tips/delete-leading-spaces-from-front-of-each-word.html
+
+sed remove all blank lines in files:
+------------------------------------
+cat input.txt | sed '/^$/d' > output.txt
+
+To remove all whitespace (including tabs) from left to first word, enter:
+------------------------------------
+echo "     This is a test" | sed -e 's/^[ \t]*//'
+cat input.txt |  sed -e 's/^[ \t]*//' > output.txt
+
+To delete trailing whitespace from end of each line, enter:
+-------------------------------------
+$ cat input.txt | sed 's/[ \t]*$//' > output.txt
+
+Better remove all leading and trailing whitespace from end of each line:
+******Useful******
+-------------------------------------
+$ cat input.txt | sed 's/^[ \t]*//;s/[ \t]*$//' > output.txt
