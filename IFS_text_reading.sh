@@ -13,5 +13,5 @@
          name=$(echo $name | sed 's/^[ \t]*//;s/[ \t]*$//')
          solution=$(echo $solution | sed 's/^[ \t]*//;s/[ \t]*$//')
          printf "\"%s\" replacing by \"%s\" ...\n" $name $solution
-
+         find $arg -type f | xargs sed -i "s/\b${original}\b/${new}/gi" ;
  done < "$file"
