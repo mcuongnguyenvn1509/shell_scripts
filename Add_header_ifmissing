@@ -1,0 +1,45 @@
+#!/bin/bash
+ #set -x
+ OSALSTRING="stringcpy"
+ HEADER_1="#include <string>"
+ APPEND_AFTER='#include'
+ dirlist=`grep -rl  "$OSALSTRING" ./* --include=*.{h,cpp}`
+ #for i in $dirlist; do echo $i; done
+
+ append_header(){
+     local string1=$2
+     local includeheader=$3
+     local file=$1
+     echo "Hello append header"$string1 $file
+     #local get_linenumber=`awk '/$string1/{print NR}' $file `
+     local get_linenumber=`awk '"/${APPEND_AFTER}/"{print NR}' $file `
+     set -- $get_linenumber
+     #echo "abc $1"
+     echo "After sed $1 $includeheader"
+     sed "$1 a $includeheader" $file
+ }
+ testlock(){
+     eval OUTPUT1=$1;
+     eval HEADER_2=$2;
+     #echo ${OUTPUT1}
+     echo "${HEADER_2}"
+     for i in $dirlist;
+         do
+             echo $i;
+             grep -q "$HEADER_2" $i
+             #echo  $?
+             if [[ $? -eq 0 ]]; then
+     #            echo "#include <string> does not exist in" $i
+                 echo "already exist" $?
+                 echo $?
+             else
+                 echo "not exist" $?
+                 append_header $i $APPEND_AFTER $HEADER_2
+
+             fi
+         done
+ }
+
+ #testlock "${OSALSTRING}" "${HEADER_1}"
+ #
+ testlock ${OSALSTRING} ${HEADER_1}
